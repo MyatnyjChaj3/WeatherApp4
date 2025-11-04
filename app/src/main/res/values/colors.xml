@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="card_blue_bg">#6603A9F4</color>
+    <color name="page_blue">#09AFF666</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="blue_400">#42A5F5</color>
+    <color name="blue_100">#BBDEFB</color>
+    <color name="blue_700">#1976D2</color>
+
+    <color name="teal_200">#80CBC4</color>
+
+    <color name="gray_900">#FF121212</color>
+    <color name="gray_800">#FF1E1E1E</color>
+    <color name="gray_700">#FF2D2D2D</color>
+
+    <!-- Карточки -->
+    <color name="card_light">#FFFFFF</color>
+    <color name="card_dark">#FF1E1E1E</color>
+
+    <!-- Текст -->
+    <color name="text_primary_light">#FF000000</color>
+    <color name="text_primary_dark">#FFFFFFFF</color>
+    <color name="text_secondary_light">#99000000</color>
+    <color name="text_secondary_dark">#99FFFFFF</color>
+</resources>

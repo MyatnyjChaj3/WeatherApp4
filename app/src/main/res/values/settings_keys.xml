@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="key_temp_unit" translatable="false">temp_unit</string>
+    <string name="key_wind_unit" translatable="false">wind_unit</string>
+    <string name="key_pressure_unit" translatable="false">pressure_unit</string>
+    <string name="key_language" translatable="false">language</string>
+    <string name="key_update_frequency" translatable="false">update_frequency</string>
+    <string name="key_gps_accuracy" translatable="false">gps_accuracy</string>
+    <string name="key_gps_timeout" translatable="false">gps_timeout</string>
+</resources>

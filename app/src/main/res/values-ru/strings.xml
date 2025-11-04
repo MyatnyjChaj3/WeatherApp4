@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WetherApp</string>
+    <string name="feels_like">Ощущается как %s</string>
+    <string name="possible_rain">Возможен дождь: %s%%</string>
+    <string name="possible_snow">Возможен снег: %s%%</string>
+    <string name="rain_snow">Дождь: %1$s%% | Снег: %2$s%%</string>
+    <string name="no_precipitation">Без осадков</string>
+    <string name="na">N/A</string>
+
+    <string name="tab_hours">Часы</string>
+    <string name="tab_days">Дни</string>
+    <string name="humidity">Влажность</string>
+    <string name="wind">Ветер</string>
+    <string name="pressure">Давление</string>
+    <string name="visibility">Видимость</string>
+    <string name="sunrise">Восход</string>
+    <string name="sunset">Закат</string>
+    <string name="precipitation">Осадки</string>
+    <string name="toast_max_favorites">Максимум 10 городов в избранном</string>
+    <string name="toast_already_favorite">Город уже в избранном</string>
+    <string name="toast_added_favorite">Город добавлен в избранное</string>
+
+    <string name="search_city_hint">Поиск города</string>
+    <string name="settings">Настройки</string>
+    <string name="favorite_cities">Избранные города</string>
+    <string name="search_history">История поиска</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="toast_history_cleared">История очищена</string>
+    <string name="toast_removed_favorite">Город удалён из избранного</string>
+
+    <string name="settings_units">Единицы измерения</string>
+    <string name="settings_temp">Температура</string>
+    <string name="settings_wind_speed">Скорость ветра</string>
+    <string name="settings_pressure">Давление</string>
+    <string name="settings_language">Язык интерфейса</string>
+    <string name="settings_lang_ru">Русский (EN - выкл.)</string>
+    <string name="settings_update_freq">Частота обновления данных</string>
+    <string name="settings_gps">Настройки GPS</string>
+    <string name="settings_gps_accuracy">Точность</string>
+    <string name="settings_gps_timeout">Таймаут (сек)</string>
+    <string name="unit_fahrenheit">°F</string>
+    <string name="unit_celsius">°C</string>
+    <string name="unit_kmh">км/ч</string>
+    <string name="unit_mph">миль/ч</string>
+    <string name="unit_ms">м/с</string>
+    <string name="unit_hpa">гПа</string>
+    <string name="unit_mmhg">мм рт.ст.</string>
+    <string name="unit_inhg">дюймы</string>
+
+    <string name="update_freq_5m">5 минут</string>
+    <string name="update_freq_15m">15 минут</string>
+    <string name="update_freq_30m">30 минут</string>
+    <string name="update_freq_1h">1 час</string>
+    <string name="update_freq_3h">3 часа</string>
+
+    <string name="gps_accuracy_high">Высокая</string>
+    <string name="gps_accuracy_balanced">Сбалансированная</string>
+    <string name="gps_accuracy_low">Низкая (экон. батареи)</string>
+
+    <string name="condition_sunny">Солнечно</string>
+    <string name="condition_clear">Ясно</string>
+    <string name="condition_partly_cloudy">Частично облачно</string>
+    <string name="condition_cloudy">Облачно</string>
+    <string name="condition_overcast">Пасмурно</string>
+    <string name="condition_mist">Туман</string>
+    <string name="condition_patchy_rain_possible">Возможен небольшой дождь</string>
+    <string name="condition_patchy_light_drizzle">Местами слабая морось</string>
+    <string name="condition_light_drizzle">Слабая морось</string>
+    <string name="condition_light_rain">Небольшой дождь</string>
+</resources>
