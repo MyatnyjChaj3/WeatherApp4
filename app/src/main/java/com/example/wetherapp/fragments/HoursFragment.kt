@@ -1,5 +1,6 @@
 package com.example.wetherapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,7 +26,6 @@ class HoursFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentHoursBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -43,31 +43,60 @@ class HoursFragment : Fragment() {
         rcView.adapter = adapter
 
     }
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        binding.rcView.adapter?.notifyDataSetChanged()
+    }
 
     private fun getHoursList(witem: WeatherModel): List<WeatherModel>{
         val hoursArray = JSONArray(witem.hours)
         val list = ArrayList<WeatherModel>()
         for (i in 0 until hoursArray.length()){
             val hourObj = hoursArray[i] as JSONObject
+
+            val conditionText = hourObj.getJSONObject("condition").getString("text")
+
             val item = WeatherModel(
                 witem.city,
-                (hoursArray[i] as JSONObject).getString("time"),
-                (hoursArray[i] as JSONObject).getJSONObject("condition")
-                    .getString("text"),
-                (hoursArray[i] as JSONObject).getString("temp_c"),
+                hourObj.getString("time"),
+                // 2. Переводим текст СРАЗУ ЗДЕСЬ
+                getConditionString(conditionText),
+                hourObj.getString("temp_c"),
                 "",
                 "",
-                (hoursArray[i] as JSONObject).getJSONObject("condition")
-                    .getString("icon"),
+                hourObj.getJSONObject("condition").getString("icon"),
                 "",
                 "","","",
                 "","","","","",
-                hourObj.getString("chance_of_rain"),  // New
+                hourObj.getString("chance_of_rain"),
                 hourObj.getString("chance_of_snow")
             )
             list.add(item)
         }
         return list
+    }
+
+    private fun getConditionString(apiCondition: String): String {
+        val resourceKey = "condition_" + apiCondition
+            .lowercase()
+            .replace(" ", "_")
+            .replace("-", "_")
+            .replace("(", "")
+            .replace(")", "")
+            .replace(",", "")
+
+        val resourceId = resources.getIdentifier(
+            resourceKey,
+            "string",
+            requireContext().packageName
+        )
+
+        return try {
+            getString(resourceId)
+        } catch (e: Exception) {
+            apiCondition // Возвращаем то, что прислал API, если перевода нет
+        }
     }
     companion object {
 

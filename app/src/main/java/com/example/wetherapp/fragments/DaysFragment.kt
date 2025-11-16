@@ -1,5 +1,6 @@
 package com.example.wetherapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,7 +24,6 @@ class DaysFragment : Fragment(), WeatherAdapter.Listener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentHoursBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -40,6 +40,11 @@ class DaysFragment : Fragment(), WeatherAdapter.Listener {
         adapter = WeatherAdapter(this@DaysFragment)
         rcView.layoutManager = LinearLayoutManager(activity)
         rcView.adapter = adapter
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        binding.rcView.adapter?.notifyDataSetChanged()
     }
 
     override fun onClick(item: WeatherModel) {

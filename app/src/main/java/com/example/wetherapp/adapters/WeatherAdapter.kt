@@ -63,15 +63,13 @@ class WeatherAdapter(val listener: Listener?) : ListAdapter<WeatherModel, Weathe
             val prefs = PreferenceManager.getDefaultSharedPreferences(itemView.context)
             val tempUnit = prefs.getString(itemView.context.getString(R.string.key_temp_unit), "C")!!
 
-            // ИЗМЕНЕНО: Форматируем температуру
-            val currentTempDisp = UnitConverter.formatTemp(item.currentTemp, tempUnit)
-            val maxTempDisp = UnitConverter.formatTemp(item.maxTemp, tempUnit)
-            val minTempDisp = UnitConverter.formatTemp(item.minTemp, tempUnit)
+            val currentTempDisp = UnitConverter.formatTemp(itemView.context, item.currentTemp, tempUnit)
+            val maxTempDisp = UnitConverter.formatTemp(itemView.context, item.maxTemp, tempUnit)
+            val minTempDisp = UnitConverter.formatTemp(itemView.context, item.minTemp, tempUnit)
             val naString = itemView.context.getString(R.string.na)
 
             tvDate.text = item.time
             tvCondition2.text = getConditionString(item.condition)
-            // ИЗМЕНЕНО: Используем форматированные значения
 
             val maxMin = "$maxTempDisp / $minTempDisp".replace("$naString / $naString", "")
             tvTemp.text = currentTempDisp.ifEmpty { maxMin }
@@ -81,7 +79,6 @@ class WeatherAdapter(val listener: Listener?) : ListAdapter<WeatherModel, Weathe
             val rainChance = item.chanceOfRain.toIntOrNull() ?: 0
             val snowChance = item.chanceOfSnow.toIntOrNull() ?: 0
 
-            // Логика взята из MainFragment
             tvPrecip.text = when {
                 rainChance > 0 && snowChance > 0 -> context.getString(R.string.rain_snow, "$rainChance", "$snowChance")
                 rainChance > 0 -> context.getString(R.string.possible_rain, "$rainChance")

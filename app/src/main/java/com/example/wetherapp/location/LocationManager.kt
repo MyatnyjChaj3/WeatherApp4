@@ -38,26 +38,24 @@ class LocationManager(
         LocationServices.getFusedLocationProviderClient(context)
     private val sharedPrefs: SharedPreferences =
         context.getSharedPreferences(PREFS_LAST_LOCATION, Context.MODE_PRIVATE)
-    // ДОБАВЛЕНО: Доступ к настройкам
+
     private val settingsPrefs: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(context)
 
     private var locationCallback: LocationCallback? = null
     private var lastLocation: Location? = null
 
-    // ДОБАВЛЕНЫ: Поля для хранения настроек
     private var gpsPriority: Int = Priority.PRIORITY_HIGH_ACCURACY
     private var updateInterval: Long = 300000L // 5 мин
     private var minUpdateInterval: Long = 60000L // 1 мин
 
     init {
-        loadGpsSettings() // ДОБАВЛЕНО: Загрузка настроек
+        loadGpsSettings()
         loadLastLocationAndUpdate()
     }
 
-    // ДОБАВЛЕНО: Новый метод для загрузки настроек
     private fun loadGpsSettings() {
-        // Загрузка точности
+
         val accuracyKey = context.getString(R.string.key_gps_accuracy)
         val accuracyValue = settingsPrefs.getString(accuracyKey, "High")
         gpsPriority = when (accuracyValue) {
@@ -66,20 +64,17 @@ class LocationManager(
             else -> Priority.PRIORITY_HIGH_ACCURACY
         }
 
-        // Загрузка частоты обновления
         val freqKey = context.getString(R.string.key_update_frequency)
         val defaultInterval = "300000" // 5 минут
         updateInterval = settingsPrefs.getString(freqKey, defaultInterval)?.toLongOrNull() ?: defaultInterval.toLong()
         minUpdateInterval = (updateInterval / 5).coerceAtLeast(60000L) // Мин. интервал не чаще 1/5 от основного, но не меньше 1 мин
     }
 
-    // Проверка включён ли GPS
     fun isLocationEnabled(): Boolean {
         val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
-    // Запуск определения локации
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     fun requestLocation() {
         if (!isLocationEnabled()) {
@@ -92,7 +87,6 @@ class LocationManager(
         startLocationUpdates()
     }
 
-    // Диалог: "Включите GPS"
     private fun showLocationSettingsDialog() {
         DialogManager.locatiionSettingsDialog(context, object : DialogManager.Listener {
             override fun onClick(name: String?) {
@@ -101,7 +95,6 @@ class LocationManager(
         })
     }
 
-    // Одноразовое получение локации
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun getCurrentLocation() {
         if (!hasLocationPermission()) {
@@ -127,7 +120,6 @@ class LocationManager(
             }
     }
 
-    // Постоянный мониторинг изменений (>5 км)
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun startLocationUpdates() {
         if (!hasLocationPermission()) return
@@ -164,7 +156,6 @@ class LocationManager(
         locationCallback = null
     }
 
-    // Сохранение последней локации
     private fun saveLastLocation(location: Location) {
         sharedPrefs.edit().apply {
             putFloat(PREF_LAT, location.latitude.toFloat())
@@ -173,7 +164,6 @@ class LocationManager(
         }
     }
 
-    // Загрузка при старте
     private fun loadLastLocationAndUpdate() {
         val lat = sharedPrefs.getFloat(PREF_LAT, 0f).toDouble()
         val lon = sharedPrefs.getFloat(PREF_LON, 0f).toDouble()
@@ -183,7 +173,6 @@ class LocationManager(
         }
     }
 
-    // Проверка разрешения
     private fun hasLocationPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
             context,
@@ -191,7 +180,6 @@ class LocationManager(
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    // Очистка при выходе
     fun onDestroy() {
         stopLocationUpdates()
     }

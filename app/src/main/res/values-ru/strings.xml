@@ -20,6 +20,10 @@
     <string name="toast_max_favorites">Максимум 10 городов в избранном</string>
     <string name="toast_already_favorite">Город уже в избранном</string>
     <string name="toast_added_favorite">Город добавлен в избранное</string>
+    <string name="dialog_title">Включить геолокацию?</string>
+    <string name="dialog_message">Геолокация отключена, хотите ли Вы включить её?</string>
+    <string name="dialog_butt1">Да</string>
+    <string name="dialog_butt2">Отмена</string>
 
     <string name="search_city_hint">Поиск города</string>
     <string name="settings">Настройки</string>
@@ -29,6 +33,7 @@
     <string name="toast_history_cleared">История очищена</string>
     <string name="toast_removed_favorite">Город удалён из избранного</string>
 
+    <string name="widget_title">Виджет Погоды</string>
     <string name="settings_units">Единицы измерения</string>
     <string name="settings_temp">Температура</string>
     <string name="settings_wind_speed">Скорость ветра</string>
@@ -39,8 +44,9 @@
     <string name="settings_gps">Настройки GPS</string>
     <string name="settings_gps_accuracy">Точность</string>
     <string name="settings_gps_timeout">Таймаут (сек)</string>
-    <string name="unit_fahrenheit">°F</string>
-    <string name="unit_celsius">°C</string>
+    <string name="unit_fahrenheit">%d°F</string>
+    <string name="unit_celsius">%d°C</string>
+
     <string name="unit_kmh">км/ч</string>
     <string name="unit_mph">миль/ч</string>
     <string name="unit_ms">м/с</string>
@@ -58,6 +64,23 @@
     <string name="gps_accuracy_balanced">Сбалансированная</string>
     <string name="gps_accuracy_low">Низкая (экон. батареи)</string>
 
+    <string name="wind_dir_n">С</string>
+    <string name="wind_dir_nne">ССВ</string>
+    <string name="wind_dir_ne">СВ</string>
+    <string name="wind_dir_ene">ВСВ</string>
+    <string name="wind_dir_e">В</string>
+    <string name="wind_dir_ese">ВЮВ</string>
+    <string name="wind_dir_se">ЮВ</string>
+    <string name="wind_dir_sse">ЮЮВ</string>
+    <string name="wind_dir_s">Ю</string>
+    <string name="wind_dir_ssw">ЮЮЗ</string>
+    <string name="wind_dir_sw">ЮЗ</string>
+    <string name="wind_dir_wsw">ЗЮЗ</string>
+    <string name="wind_dir_w">З</string>
+    <string name="wind_dir_wnw">ЗСЗ</string>
+    <string name="wind_dir_nw">СЗ</string>
+    <string name="wind_dir_nnw">ССЗ</string>
+
     <string name="condition_sunny">Солнечно</string>
     <string name="condition_clear">Ясно</string>
     <string name="condition_partly_cloudy">Частично облачно</string>
@@ -67,5 +90,7 @@
     <string name="condition_patchy_rain_possible">Возможен небольшой дождь</string>
     <string name="condition_patchy_light_drizzle">Местами слабая морось</string>
     <string name="condition_light_drizzle">Слабая морось</string>
+    <string name="unit_visibility_km">%s км</string>
     <string name="condition_light_rain">Небольшой дождь</string>
+    <string name="condition_light_freezing_rain">Небольшой ледяной дождь</string>
 </resources>

@@ -1,6 +1,7 @@
-// Файл: fragments/SettingsFragment.kt
+
 package com.example.wetherapp.fragments
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +22,6 @@ class SettingsFragment : Fragment() {
     private lateinit var prefs: SharedPreferences
     private val model: MainViewModel by activityViewModels()
 
-    // Ключи для SharedPreferences
     private lateinit var KEY_TEMP: String
     private lateinit var KEY_WIND: String
     private lateinit var KEY_PRESSURE: String
@@ -56,13 +56,18 @@ class SettingsFragment : Fragment() {
         KEY_UPDATE_FREQ = getString(R.string.key_update_frequency)
     }
 
+
     private fun loadSettings() = with(binding) {
-        // Температура
+
+        val celsiusUnit = getString(R.string.unit_celsius).replace("%d", "").trim()
+        val fahrenheitUnit = getString(R.string.unit_fahrenheit).replace("%d", "").trim()
+
+        rbCelsius.text = celsiusUnit
+        rbFahrenheit.text = fahrenheitUnit
         rgTemperature.check(
             if (prefs.getString(KEY_TEMP, "C") == "F") rbFahrenheit.id else rbCelsius.id
         )
 
-        // Скорость ветра
         rgWind.check(
             when (prefs.getString(KEY_WIND, "KPH")) {
                 "MPH" -> rbMph.id
@@ -71,7 +76,6 @@ class SettingsFragment : Fragment() {
             }
         )
 
-        // Давление
         rgPressure.check(
             when (prefs.getString(KEY_PRESSURE, "HPA")) {
                 "MMHG" -> rbMmHg.id
@@ -80,32 +84,27 @@ class SettingsFragment : Fragment() {
             }
         )
 
-        // Язык
         switchLanguage.isChecked = prefs.getString(KEY_LANG, "RU") == "RU"
         switchLanguage.text = getString(R.string.settings_lang_ru)
 
-        // Частота обновления
         val freqValues = resources.getStringArray(R.array.update_frequency_values)
         val currentFreq = prefs.getString(KEY_UPDATE_FREQ, "300000") // 5 мин по умолч.
         spinnerUpdateFrequency.setSelection(freqValues.indexOf(currentFreq).coerceAtLeast(0))
 
-        // Точность GPS
         val accuracyValues = resources.getStringArray(R.array.gps_accuracy_values)
         val currentAccuracy = prefs.getString(KEY_GPS_ACCURACY, "High")
         spinnerGpsAccuracy.setSelection(accuracyValues.indexOf(currentAccuracy).coerceAtLeast(0))
 
-        // Таймаут GPS
         etGpsTimeout.setText(prefs.getString(KEY_GPS_TIMEOUT, "10"))
     }
 
     private fun setupListeners() = with(binding) {
-        // Температура
+
         rgTemperature.setOnCheckedChangeListener { _, checkedId ->
             prefs.edit().putString(KEY_TEMP, if (checkedId == rbFahrenheit.id) "F" else "C").apply()
             model.notifyUnitsChanged()
         }
 
-        // Скорость ветра
         rgWind.setOnCheckedChangeListener { _, checkedId ->
             val value = when (checkedId) {
                 rbMph.id -> "MPH"
@@ -116,7 +115,6 @@ class SettingsFragment : Fragment() {
             model.notifyUnitsChanged()
         }
 
-        // Давление
         rgPressure.setOnCheckedChangeListener { _, checkedId ->
             val value = when (checkedId) {
                 rbMmHg.id -> "MMHG"
@@ -127,7 +125,6 @@ class SettingsFragment : Fragment() {
             model.notifyUnitsChanged()
         }
 
-        // Язык
         switchLanguage.setOnCheckedChangeListener { _, isChecked ->
             val lang = if (isChecked) "ru" else "en"
             prefs.edit().putString(KEY_LANG, lang.uppercase()).apply()
@@ -137,7 +134,6 @@ class SettingsFragment : Fragment() {
             AppCompatDelegate.setApplicationLocales(appLocale)
         }
 
-        // Частота обновления
         val freqValues = resources.getStringArray(R.array.update_frequency_values)
         spinnerUpdateFrequency.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
@@ -146,7 +142,6 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        // Точность GPS
         val accuracyValues = resources.getStringArray(R.array.gps_accuracy_values)
         spinnerGpsAccuracy.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
@@ -155,7 +150,6 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        // Таймаут GPS
         etGpsTimeout.addTextChangedListener(object : android.text.TextWatcher {
             override fun afterTextChanged(s: android.text.Editable?) {
                 prefs.edit().putString(KEY_GPS_TIMEOUT, s.toString()).apply()

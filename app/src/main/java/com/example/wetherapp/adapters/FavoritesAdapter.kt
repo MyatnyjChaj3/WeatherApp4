@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wetherapp.R
 import com.example.wetherapp.databinding.ListItem2Binding
-import com.example.wetherapp.databinding.ListItemBinding
 import com.example.wetherapp.utils.UnitConverter
 import com.squareup.picasso.Picasso
 
@@ -38,28 +37,18 @@ class FavoritesAdapter(
 
         init {
             itemView.setOnClickListener { item?.let(onClick) }
-            binding.ibDelete.setOnClickListener { item?.let { onDelete(it.city) } }  // Дописал: кнопка удаления
+            binding.ibDelete.setOnClickListener { item?.let { onDelete(it.city) } }
         }
 
         fun bind(item: CityItem) = with(binding) {
             this@Holder.item = item
             tvCity.text = item.city
-
-            // --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
-            // 1. Получаем настройки
             val prefs = PreferenceManager.getDefaultSharedPreferences(itemView.context)
             val tempUnit = prefs.getString(itemView.context.getString(R.string.key_temp_unit), "C")!!
             val naString = itemView.context.getString(R.string.na) // "N/A"
-
-            // 2. Конвертируем "сырое" значение (напр. "15") в "15°C" или "59°F"
-            val tempDisplay = UnitConverter.formatTemp(item.currentTemp, tempUnit)
-
-            // 3. Отображаем, с проверкой на N/A
+            val tempDisplay = UnitConverter.formatTemp(itemView.context, item.currentTemp, tempUnit)
             tvTemp.text = if(tempDisplay.contains(naString)) naString else tempDisplay
-
-            // 4. Загружаем иконку
             Picasso.get().load("https:" + item.ImageUrl).into(im2)
-            // --- КОНЕЦ ИЗМЕНЕНИЙ ---
         }
     }
 

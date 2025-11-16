@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -115,10 +116,12 @@ class CityFragment : Fragment() {
     }
 
     private fun searchCities(query: String) {
+        val defaultPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val lang = defaultPrefs.getString(getString(R.string.key_language), "RU")?.lowercase()
         val encodedQuery = URLEncoder.encode(query, "UTF-8")
-        val url = "https://api.weatherapi.com/v1/search.json?key=$API_KEY&q=$encodedQuery"
+        val url = "https://api.weatherapi.com/v1/search.json?key=$API_KEY&q=$encodedQuery&lang=$lang"
 
-        // Преобразуем в object : StringRequest
+
         val request = object : StringRequest(Request.Method.GET, url,
             { result ->
                 // ... (ваш код парсинга JSON) ...
@@ -167,31 +170,25 @@ class CityFragment : Fragment() {
         var pending = cityNames.size
 
         for (cityStr in cityNames) {
-            // Вызываем обновленную функцию
             fetchTempForCity(cityStr) { temp, iconUrl ->
 
-                // Создаем готовый CityItem
                 val item = CityItem(
                     city = cityStr,
-                    region = "", // У избранных нет региона
+                    region = "",
                     currentTemp = if (temp.isNotEmpty()) temp else getString(R.string.na),
                     ImageUrl = iconUrl
                 )
 
-                // Потокобезопасно сохраняем результат
                 synchronized(resultMap) {
                     resultMap[cityStr] = item
                 }
 
                 pending--
                 if (pending == 0) {
-                    // Все запросы завершены.
-                    // Собираем итоговый список, сортируем и передаем в адаптер.
                     val finalList = cityNames
-                        .mapNotNull { resultMap[it] } // Восстанавливаем порядок
+                        .mapNotNull { resultMap[it] }
                         .sortedBy { it.city }
 
-                    // submitList должен вызываться в UI-потоке
                     activity?.runOnUiThread {
                         favoritesAdapter.submitList(finalList)
                     }
@@ -213,8 +210,10 @@ class CityFragment : Fragment() {
     }
 
     private fun fetchTempForCity(city: String, callback: (temp: String, iconUrl: String) -> Unit) {
+        val defaultPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val lang = defaultPrefs.getString(getString(R.string.key_language), "RU")?.lowercase()
         val encodedCity = URLEncoder.encode(city, "UTF-8")
-        val url = "https://api.weatherapi.com/v1/forecast.json?key=$API_KEY&q=$encodedCity&days=1&aqi=no&alerts=no"
+        val url = "https://api.weatherapi.com/v1/forecast.json?key=$API_KEY&q=$encodedCity&days=1&aqi=no&alerts=no&lang=$lang"
 
         val request = object : StringRequest(Request.Method.GET, url,
             { result ->
@@ -226,11 +225,7 @@ class CityFragment : Fragment() {
                     val temp = current.getString("temp_c").toFloat().toInt().toString()
                     val iconUrl = condition.getString("icon")
 
-                    // Вызываем callback с ДВУМЯ значениями
                     callback(temp, iconUrl)
-
-                    // УБИРАЕМ СТАРУЮ ЛОГИКУ ОБНОВЛЕНИЯ ADAPTER.CURRENTLIST
-                    // favoritesAdapter.currentList.find { it.city == city }?.apply { ... }
 
                 } catch (e: Exception) {
                     callback("", "") // Возвращаем пустые строки при ошибке
@@ -256,7 +251,7 @@ class CityFragment : Fragment() {
 
     private fun addToFavorites(city: String) {
         if (favoritesAdapter.currentList.size >= MAX_FAVORITES) {
-            // ИЗМЕНЕНО
+
             Toast.makeText(requireContext(), getString(R.string.toast_max_favorites), Toast.LENGTH_SHORT).show()
             return
         }
@@ -264,7 +259,7 @@ class CityFragment : Fragment() {
         val array = JSONArray(json)
         for (i in 0 until array.length()) {
             if (array.getString(i) == city) {
-                // ИЗМЕНЕНО
+
                 Toast.makeText(requireContext(), getString(R.string.toast_already_favorite), Toast.LENGTH_SHORT).show()
                 return
             }
@@ -272,7 +267,7 @@ class CityFragment : Fragment() {
         array.put(city)
         sharedPrefs.edit().putString(PREFS_FAVORITES, array.toString()).apply()
         loadFavorites()
-        // ИЗМЕНЕНО
+
         Toast.makeText(requireContext(), getString(R.string.toast_added_favorite), Toast.LENGTH_SHORT).show()
     }
 
@@ -285,7 +280,6 @@ class CityFragment : Fragment() {
         }
         sharedPrefs.edit().putString(PREFS_FAVORITES, newArray.toString()).apply()
         loadFavorites()
-        // ИЗМЕНЕНО
         Toast.makeText(requireContext(), getString(R.string.toast_removed_favorite), Toast.LENGTH_SHORT).show()
     }
 
@@ -294,23 +288,16 @@ class CityFragment : Fragment() {
         val array = JSONArray(json)
         val historyList = mutableListOf<String>()
 
-        // 1. Считываем текущую историю
         for (i in 0 until array.length()) {
             historyList.add(array.getString(i))
         }
 
-        // 2. Удаляем все старые вхождения этого запроса
         historyList.removeAll { it == query }
-
-        // 3. Добавляем запрос в конец списка
         historyList.add(query)
-
-        // 4. Обрезаем список с начала, если он превышает лимит
         while (historyList.size > MAX_HISTORY) {
             historyList.removeAt(0)
         }
 
-        // 5. Сохраняем новый список
         val newArray = JSONArray(historyList)
         sharedPrefs.edit().putString(PREFS_SEARCH_HISTORY, newArray.toString()).apply()
         loadHistory() // Обновляем UI
@@ -319,7 +306,6 @@ class CityFragment : Fragment() {
     private fun clearHistory() {
         sharedPrefs.edit().remove(PREFS_SEARCH_HISTORY).apply()
         loadHistory()
-        // ИЗМЕНЕНО
         Toast.makeText(context, getString(R.string.toast_history_cleared), Toast.LENGTH_SHORT).show()
     }
 

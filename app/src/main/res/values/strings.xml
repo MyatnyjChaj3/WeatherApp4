@@ -27,7 +27,7 @@
     <string name="clear_history">Clear history</string>
     <string name="toast_history_cleared">History is cleared</string>
     <string name="toast_removed_favorite">City removed from favorites</string>
-
+    <string name="widget_title">Weather Widget</string>
     <string name="settings_units">Units</string>
     <string name="settings_temp">Temperature</string>
     <string name="settings_wind_speed">Wind speed</string>
@@ -38,13 +38,13 @@
     <string name="settings_gps">GPS Settings</string>
     <string name="settings_gps_accuracy">Accuracy</string>
     <string name="settings_gps_timeout">Timeout (sec)</string>
-    <string name="unit_fahrenheit">°F</string>
-    <string name="unit_celsius">°C</string>
+    <string name="unit_fahrenheit">%d°F</string>
+    <string name="unit_celsius">%d°C</string>
     <string name="unit_kmh">km/h</string>
     <string name="unit_mph">mp/h</string>
     <string name="unit_ms">m/s</string>
     <string name="unit_hpa">hPa</string>
-    <string name="unit_mmhg">mm h.g.</string>
+    <string name="unit_mmhg">mm Hg</string>
     <string name="unit_inhg">inhg</string>
     <string name="update_freq_5m">5 minutes</string>
     <string name="update_freq_15m">15 minutes</string>
@@ -64,5 +64,27 @@
     <string name="condition_patchy_rain_possible">Patchy rain possible</string>
     <string name="condition_patchy_light_drizzle">Patchy light drizzle</string>
     <string name="condition_light_drizzle">Light drizzle</string>
+    <string name="unit_visibility_km">%s km</string>
     <string name="condition_light_rain">Light rain</string>
+    <string name="wind_dir_n">N</string>
+    <string name="wind_dir_nne">NNE</string>
+    <string name="wind_dir_ne">NE</string>
+    <string name="wind_dir_ene">ENE</string>
+    <string name="wind_dir_e">E</string>
+    <string name="wind_dir_ese">ESE</string>
+    <string name="wind_dir_se">SE</string>
+    <string name="wind_dir_sse">SSE</string>
+    <string name="wind_dir_s">S</string>
+    <string name="wind_dir_ssw">SSW</string>
+    <string name="wind_dir_sw">SW</string>
+    <string name="wind_dir_wsw">WSW</string>
+    <string name="wind_dir_w">W</string>
+    <string name="wind_dir_wnw">WNW</string>
+    <string name="wind_dir_nw">NW</string>
+    <string name="wind_dir_nnw">NNW</string>
+    <string name="condition_light_freezing_rain">Light freezing rain</string>
+    <string name="dialog_butt1">Ok</string>
+    <string name="dialog_butt2">Cancel</string>
+    <string name="dialog_title">Enable location?</string>
+    <string name="dialog_message">Location disabled, do you wanna enable location?</string>
 </resources>
